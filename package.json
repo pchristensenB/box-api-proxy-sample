@@ -1,0 +1,31 @@
+{
+  "devDependencies": {
+    "http-proxy-middleware": "^2.0.1"
+  },
+  "name": "middleware",
+  "version": "1.0.0",
+  "main": "index.js",
+  "dependencies": {
+    "braces": "^3.0.2",
+    "eventemitter3": "^4.0.7",
+    "express": "^4.17.1",
+    "fill-range": "^7.0.1",
+    "follow-redirects": "^1.14.4",
+    "http-proxy": "^1.18.1",
+    "is-extglob": "^2.1.1",
+    "is-glob": "^4.0.1",
+    "is-number": "^7.0.0",
+    "is-plain-obj": "^3.0.0",
+    "micromatch": "^4.0.4",
+    "picomatch": "^2.3.0",
+    "requires-port": "^1.0.0",
+    "to-regex-range": "^5.0.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}
