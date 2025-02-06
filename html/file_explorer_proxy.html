@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+
+
+	<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+	<!-- polyfill.io only loads the polyfills your browser needs -->
+	<script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=Promise"></script>
+	<!-- Alternatively, use polyfills hosted on the Box CDN
+     <script src="https://cdn01.boxcdn.net/polyfills/bluebird/3.5.1/bluebird.min.js"></script>
+     -->
+
+	<!-- Latest version of Box Content Preview for en-US locale -->
+	<script src="https://cdn01.boxcdn.net/platform/elements/16.0.0/en-US/explorer.js"></script>
+	<link rel="stylesheet" href="https://cdn01.boxcdn.net/platform/elements/16.0.0/en-US/explorer.css" />
+	<script type="module" src="annotations.js"></script>
+	 <link rel="stylesheet" href="annotations.css" />
+	<script>
+		var clientId = "bn2iyg37p78jkowrp0io0nc2ln0be3wt";
+		var testRequestInterceptor = (
+			config /* https://github.com/axios/axios#response-config */
+		  ) => {
+			//console.log(JSON.stringify(config));
+			//var newConfig = config.replace(/api.box.com/g, "localhost:3000");
+			console.log('request');
+			return config;
+		  };
+		  var testResponseInterceptor = (
+			config /* https://github.com/axios/axios#response-config */
+		  ) => {
+			//console.log(config.data.item_collection.entries[0].authenticated_download_url);
+			var newConfig =	JSON.stringify(config).replace(/https:\/\/dl.boxcloud.com/g, "http:\/\/localhost:3000/dl").replace(/https:\/\/upload.app.box.com/g, "http:\/\/localhost:3000/app-upload");//.replace(/https:\/\/upload.app.box.com/g, "http:\/\/localhost:3002");;
+			//newConfig = JSON.stringify(JSON.parse(newConfig)).replace(/https:\/\/upload.app.box.com/g, "http:\/\/localhost:3002");
+			return JSON.parse(newConfig);	
+			//return config;
+		  };
+
+
+		$(document).ready(function() {
+			var	accessToken = '123'
+				var contentSidebarProps = {
+					hasActivityFeed: true,
+					features: {
+					  activityFeed: {
+						annotations: {
+						  enabled: true
+						}
+					  }
+					}
+				  };
+				  var annotations = new BoxAnnotations();
+				  var contentPreviewProps = {
+					enableAnnotationsDiscoverability: true,
+					enableAnnotationsImageDiscoverability: true,
+					showAnnotations: true,
+					showAnnotationsControls: true,
+					showAnnotationsDrawingCreate: true,
+					boxAnnotations:annotations,
+					contentSidebarProps: contentSidebarProps
+				  };
+				  var contentUploaderProps = {
+					apiHost:"http://localhost:3000/api",
+					uploadHost:"http://localhost:3000/upload",
+				  };
+				  var options = {
+					container: ".pcontainer",
+					canShare: false,
+					canSetShareAccess: false,
+					contentPreviewProps:contentPreviewProps,
+					contentUploaderProps:contentUploaderProps,
+					apiHost:"http://localhost:3000/api",
+					uploadHost:"http://localhost:3000/upload",
+            		requestInterceptor: testRequestInterceptor,
+            		responseInterceptor: testResponseInterceptor
+					
+				  };
+				  
+				  /* BoxAnnotations */
+				
+				  
+				  /* Box Preview */
+				  var contentExplorer = new Box.ContentExplorer();
+				  
+				  /* Set annotation into previewer */
+				 // options["boxAnnotations"] = annotations;
+				  
+				  contentExplorer.show('0', accessToken, options);
+
+			});
+
+
+		
+	</script>
+</head>
+
+<body>
+	This is a sample of preview and annotations
+	<div class="tab-pane show active mts" role="tabpanel" id="explorer">
+
+		<div style="height:800px;width:1000px;display:block" class="pcontainer"></div>
+	</div>
+</body>
+
+</html>
